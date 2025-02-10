@@ -1,0 +1,808 @@
+{
+  "name": "Markdown RAG",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "382f6258-27b6-461e-9a75-a4b087b7f88c",
+      "name": "Postgres Chat Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryPostgresChat",
+      "typeVersion": 1.1,
+      "position": [
+        480,
+        340
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "k06jjwa7fTCu3ENZ",
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "qwen2.5:7b",
+        "options": {}
+      },
+      "id": "24fec1cd-5746-4d77-b3e0-adf303d6df73",
+      "name": "Ollama Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        360,
+        340
+      ],
+      "credentials": {
+        "ollamaApi": {
+          "id": "cc9PsvuqV0LLRLOY",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "qwen2.5:7b",
+        "options": {}
+      },
+      "id": "2c0d0b88-be9e-48ce-87ea-8fb20b869071",
+      "name": "Ollama Model",
+      "type": "@n8n/n8n-nodes-langchain.lmOllama",
+      "typeVersion": 1,
+      "position": [
+        1400,
+        280
+      ],
+      "credentials": {
+        "ollamaApi": {
+          "id": "cc9PsvuqV0LLRLOY",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "vector_store_tool",
+        "description": "This is a vector store tool. Lot's of useful information here. This should be used as a primary source of information. Contains notes, writings, articles, posts, etc. It should be used every time to find more context.",
+        "topK": 5
+      },
+      "id": "509e1525-35a9-4314-9bd0-83da4cdca1c7",
+      "name": "Vector Store Tool",
+      "type": "@n8n/n8n-nodes-langchain.toolVectorStore",
+      "typeVersion": 1,
+      "position": [
+        1180,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "id": "1c0e96ae-e742-430f-9a9d-ed96f00d8302",
+      "name": "Embeddings Ollama",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        1280,
+        380
+      ],
+      "credentials": {
+        "ollamaApi": {
+          "id": "cc9PsvuqV0LLRLOY",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "10646eae-ae46-4327-a4dc-9987c2d76173",
+              "name": "path_to_file",
+              "value": "={{ $json.path }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "26e820f3-1792-4912-9a17-9493f6c093b8",
+      "name": "Set File ID",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        180,
+        660
+      ]
+    },
+    {
+      "parameters": {
+        "jsonMode": "expressionData",
+        "jsonData": "={{ $('Extract Document Text').item.json.data }}",
+        "options": {
+          "metadata": {
+            "metadataValues": [
+              {
+                "name": "=path",
+                "value": "={{ $('Extract Document Text').item.json.directory }}/{{ $('Extract Document Text').item.json.fileName }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "1d25c701-1f34-4427-943f-52b551cd2c4f",
+      "name": "Default Data Loader",
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        880
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "2fdad3c2-096c-440c-b174-29a138dbda43",
+      "name": "Recursive Character Text Splitter",
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        1100
+      ]
+    },
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "id": "c120ab47-8bcf-4945-b7a8-fe671591a21b",
+      "name": "Embeddings Ollama1",
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        1140,
+        880
+      ],
+      "credentials": {
+        "ollamaApi": {
+          "id": "cc9PsvuqV0LLRLOY",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Local RAG AI Agent",
+        "height": 527.3027193303974,
+        "width": 969.0343804425795
+      },
+      "id": "78e85b31-3366-4698-9039-93f3c675a2da",
+      "name": "Sticky Note2",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Vector Store",
+        "height": 528.85546469693,
+        "width": 583.4552380860637,
+        "color": 4
+      },
+      "id": "e85c3473-b671-4baa-8dbf-ebb73d5bbd9f",
+      "name": "Sticky Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        980,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "content": "## Workflow to Create Local Knowledgebase",
+        "height": 705.2695614889159,
+        "width": 1568.9362829025763,
+        "color": 5
+      },
+      "id": "3010b86f-2a1c-4759-a278-c0a8beabbe15",
+      "name": "Sticky Note1",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        0,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "a6c9dbcc-586d-403d-a006-8ccb46336fca",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        60,
+        120
+      ],
+      "webhookId": "4b3b1838-d6b3-447e-9d79-d0931eddb9f8"
+    },
+    {
+      "parameters": {
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "content",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "id": "737a9c92-e93d-4a4c-88dd-86389524f45c",
+      "name": "Qdrant Vector Store",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        260
+      ],
+      "credentials": {
+        "qdrantApi": {
+          "id": "PjLRaO1MyhVSU5eo",
+          "name": "QdrantApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "code": {
+          "execute": {
+            "code": "const { QdrantVectorStore } = require(\"@langchain/qdrant\");\nconst { OllamaEmbeddings } = require(\"@langchain/community/embeddings/ollama\");\n\nconst embeddings = new OllamaEmbeddings({\n  model: \"nomic-embed-text\",\n  baseUrl: \"http://ollama:11434\"\n});\n\nconst vectorStore = await QdrantVectorStore.fromExistingCollection(\n  embeddings,\n  {\n    url: \"http://qdrant:6333\",\n    collectionName: \"content\",\n  }\n);\n\nconst fileIdToDelete = this.getInputData()[0].json.path_to_file;\n\nconst filter = {\n        must: [\n            {\n                key: \"metadata.path\",\n                match: {\n                    value: fileIdToDelete,\n                },\n            },\n        ],\n    }\n\n\n  vectorStore.client.delete(\"content\", {\n    filter\n  });\n\n\nreturn [ {json: { path_to_file: fileIdToDelete } } ];\n"
+          }
+        },
+        "inputs": {
+          "input": [
+            {
+              "type": "main",
+              "required": true
+            }
+          ]
+        },
+        "outputs": {
+          "output": [
+            {
+              "type": "main"
+            }
+          ]
+        }
+      },
+      "id": "7996e2f2-b628-4609-b296-760694acf969",
+      "name": "Clear Old Vectors",
+      "type": "@n8n/n8n-nodes-langchain.code",
+      "typeVersion": 1,
+      "position": [
+        340,
+        660
+      ],
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "content",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "id": "b275b9ad-ffc7-4f72-b772-56b08ce6d849",
+      "name": "Qdrant Vector Store Insert",
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1,
+      "position": [
+        1240,
+        660
+      ],
+      "credentials": {
+        "qdrantApi": {
+          "id": "PjLRaO1MyhVSU5eo",
+          "name": "QdrantApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "b94283e6-699e-4563-9257-abb2869805fe",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        780,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "invoke_n8n_agent",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "3b579f6e-ba0f-415a-ba83-b8146da1bd2a",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        60,
+        300
+      ],
+      "webhookId": "4a839da9-b8a2-45f8-bcaf-c484f9a5912d"
+    },
+    {
+      "parameters": {
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "Use the vector_store_tool to find useful information as the primary source of information. Use the vector store tool for guidance and context even when not specified to do so. You should always at least try to find context from the vector store tool."
+        }
+      },
+      "id": "bce9a98c-a308-49c3-9388-a3f2ff30a992",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        440,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "75ebfdef-c8e2-4c3e-b716-1479d0cc2a73",
+              "name": "chatInput",
+              "value": "={{ $json?.chatInput || $json.body.chatInput }}",
+              "type": "string"
+            },
+            {
+              "id": "59b7a20f-0626-4861-93e2-015d430c266e",
+              "name": "sessionId",
+              "value": "={{ $json?.sessionId || $json.body.sessionId}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fdd059aa-3ee2-486a-ab19-e8ad4ab0b6fc",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        260,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "triggerOn": "folder",
+        "path": "/content",
+        "events": [
+          "add"
+        ],
+        "options": {
+          "followSymlinks": true,
+          "usePolling": true
+        }
+      },
+      "type": "n8n-nodes-base.localFileTrigger",
+      "typeVersion": 1,
+      "position": [
+        40,
+        660
+      ],
+      "id": "a0d72ff0-2b22-47f8-b8be-43aedecccff1",
+      "name": "File Added"
+    },
+    {
+      "parameters": {
+        "triggerOn": "folder",
+        "path": "/content",
+        "events": [
+          "change"
+        ],
+        "options": {
+          "followSymlinks": true,
+          "usePolling": true
+        }
+      },
+      "type": "n8n-nodes-base.localFileTrigger",
+      "typeVersion": 1,
+      "position": [
+        40,
+        880
+      ],
+      "id": "34a9afd1-dce5-4062-bbbb-d44f935fdd5d",
+      "name": "File Changed"
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $json.path_to_file }}",
+        "options": {
+          "dataPropertyName": "data"
+        }
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        500,
+        660
+      ],
+      "id": "9f25912f-6281-4cab-ad01-68fe3f0da1be",
+      "name": "Read/Write Files from Disk",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {
+          "keepSource": "json"
+        }
+      },
+      "id": "f7f6e694-be83-459d-a283-f98caad45c1d",
+      "name": "Extract Document Text",
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        700,
+        660
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "mode": "markdownToHtml",
+        "markdown": "={{ $json.data }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.markdown",
+      "typeVersion": 1,
+      "position": [
+        880,
+        660
+      ],
+      "id": "c2c5a3b1-b71b-49b2-9610-1d3221006517",
+      "name": "To HTML"
+    },
+    {
+      "parameters": {
+        "language": "python",
+        "pythonCode": "from bs4 import BeautifulSoup\n_json.data = ''.join(BeautifulSoup(_json.data).findAll(text=True))\nreturn _input.all()"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1060,
+        660
+      ],
+      "id": "02d781a4-9676-4d05-8c09-096644f36bd9",
+      "name": "To text"
+    },
+    {
+      "parameters": {
+        "code": {
+          "execute": {
+            "code": "const { QdrantVectorStore } = require(\"@langchain/qdrant\");\nconst { OllamaEmbeddings } = require(\"@langchain/community/embeddings/ollama\");\n\nconst embeddings = new OllamaEmbeddings({\n  model: \"nomic-embed-text\",\n  baseUrl: \"http://ollama:11434\"\n});\n\nconst vectorStore = await QdrantVectorStore.fromExistingCollection(\n  embeddings,\n  {\n    url: \"http://qdrant:6333\",\n    collectionName: \"content\",\n  }\n);\n\nconst fileIdToDelete = this.getInputData()[0].json.path;\n\nconst filter = {\n        must: [\n            {\n                key: \"metadata.path\",\n                match: {\n                    value: fileIdToDelete,\n                },\n            },\n        ],\n    }\n\n  vectorStore.client.delete(\"content\", {\n    filter\n  });\n\n\nreturn [ {json: { path_to_file: fileIdToDelete } } ];\n"
+          }
+        },
+        "inputs": {
+          "input": [
+            {
+              "type": "main",
+              "required": true
+            }
+          ]
+        },
+        "outputs": {
+          "output": [
+            {
+              "type": "main"
+            }
+          ]
+        }
+      },
+      "id": "5afbf0fa-19a4-4967-8925-a16d29205a40",
+      "name": "Clear Old Vectors1",
+      "type": "@n8n/n8n-nodes-langchain.code",
+      "typeVersion": 1,
+      "position": [
+        340,
+        1080
+      ],
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "triggerOn": "folder",
+        "path": "/content",
+        "events": [
+          "unlink"
+        ],
+        "options": {
+          "followSymlinks": true,
+          "usePolling": true
+        }
+      },
+      "type": "n8n-nodes-base.localFileTrigger",
+      "typeVersion": 1,
+      "position": [
+        40,
+        1080
+      ],
+      "id": "df80362e-cf59-4d35-967a-26413ecb0f17",
+      "name": "File deleted"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "File deleted": {
+      "main": [
+        [
+          {
+            "node": "Clear Old Vectors1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Clear Old Vectors": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set File ID": {
+      "main": [
+        [
+          {
+            "node": "Clear Old Vectors",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama1": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store Insert",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store Insert",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File Changed": {
+      "main": [
+        [
+          {
+            "node": "Set File ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "File Added": {
+      "main": [
+        [
+          {
+            "node": "Set File ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "Extract Document Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Document Text": {
+      "main": [
+        [
+          {
+            "node": "To HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "To HTML": {
+      "main": [
+        [
+          {
+            "node": "To text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "To text": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store Insert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres Chat Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Vector Store Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qdrant Vector Store": {
+      "ai_vectorStore": [
+        [
+          {
+            "node": "Vector Store Tool",
+            "type": "ai_vectorStore",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Vector Store Tool",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ac121aaa-12d9-47fb-bfb9-d885cc1e888c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "28ed1e45f69188e04a8d8dca01a51a245f5759db14e59f043bee51d0f28ded97"
+  },
+  "id": "smJd7fKS5ymkQ5k3",
+  "tags": []
+}
