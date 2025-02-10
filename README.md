@@ -9,7 +9,7 @@ Self-hosted RAG-system for markdown notes using the following technologies:
 
 ## Installation
 1. [Install Docker](https://www.docker.com/get-started/)
-2. Clone repo `git clone https://github.com/miikavonbell/local-rag.git`
+2. Clone repo `git clone https://github.com/apukone/self-hosted-ai-rag.git`
 3. Open the project folder
 4. Run: `docker compose up` and wait for it to finish (could take a few minutes)
 
